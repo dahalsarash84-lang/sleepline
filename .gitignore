@@ -1,0 +1,10 @@
+# Local dev server output
+.serve.log
+*.log
+
+# Freebuff thread sandbox: an older copy of this work, not part of the app
+ef542c34-*/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
