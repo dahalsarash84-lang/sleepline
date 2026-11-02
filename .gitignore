@@ -2,6 +2,9 @@
 .serve.log
 *.log
 
+# Freebuff working state (not app source)
+.freebuff/
+
 # Freebuff thread sandbox: an older copy of this work, not part of the app
 ef542c34-*/
 

@@ -29,6 +29,21 @@ Use `127.0.0.1`, not `localhost`, for the Spotify redirect URI, because Spotify 
 
 `serve.py` serves HTML fresh on every load and lets the service worker cache the rest. Any other static server works too, as long as the Spotify redirect URI matches exactly.
 
+## Use it online (works with the computer off)
+
+**https://dahalsarash84-lang.github.io/https-github.com-you-somnia/**
+
+GitHub Pages serves the `main` branch over HTTPS, so this address works on any
+phone, on mobile data, with this computer switched off. It is also the only
+address where the offline cache, home-screen install and Spotify sign-in all
+work. Because it is HTTPS, the app keeps working after the first visit even
+without a signal.
+
+Pushing to `main` updates the site; the build takes about a minute. The pages
+URL is public, like the repository — no sleep entries, notes or keys live in it.
+
+If you switch which machine you develop on, this is the address to hand people.
+
 ## Use it on your phone
 
 1. Put the phone on the same Wi-Fi as this computer.
@@ -52,11 +67,13 @@ What works depends on the address you use:
 | Soundscapes and sleep timer | yes | yes |
 | Opens without a network (offline cache) | no | yes |
 | Spotify sign-in | no | yes |
+| Works while this computer is off | no | yes |
 
 Browsers only allow service workers and `crypto.subtle` — which Spotify's PKCE
 challenge relies on — in a secure context. Over plain Wi-Fi the app runs fine
-and the generated soundscapes still work; for the last two rows, serve it over
-HTTPS (a tunnel or a static host) and add that exact URL as a Spotify redirect URI.
+and the generated soundscapes still work; for the last three rows, use the
+GitHub Pages address above, or any HTTPS host, and add that exact URL as a
+Spotify redirect URI.
 
 ## What works
 
@@ -73,10 +90,11 @@ HTTPS (a tunnel or a static host) and add that exact URL as a Spotify redirect U
 ## Spotify setup (optional)
 
 1. Open the [Spotify developer dashboard](https://developer.spotify.com/dashboard) and create an app.
-2. Add this exact redirect URI:
+2. Add these exact redirect URIs (one for each address you use):
 
    ```
    http://127.0.0.1:4173/
+   https://dahalsarash84-lang.github.io/https-github.com-you-somnia/
    ```
 
 3. Under **User Management**, add the Spotify account you will use. Development mode is currently limited to five users and requires the app owner to have Spotify Premium.
@@ -92,7 +110,9 @@ user-read-playback-state user-modify-playback-state
 
 Tokens are stored in this browser’s local storage. Nothing is sent to a Somnia server because there isn’t one. Playback starts on an already-open Spotify device and requires Premium.
 
-If you host the app on HTTPS later, add that exact URL as an additional redirect URI in the Spotify app.
+If you host the app anywhere else, add that exact URL as an additional redirect
+URI in the Spotify app — Spotify compares the whole string, including the
+trailing slash.
 
 ## Data & privacy
 
@@ -101,6 +121,10 @@ If you host the app on HTTPS later, add that exact URL as an additional redirect
 - Soundscapes are generated locally; no audio files are downloaded.
 - External music links only open when chosen.
 - Spotify requests happen only after you connect your own Client ID/account.
+- Usage analytics (PostHog) is opt-in and off by default. Turning it on in
+  **Settings → Privacy & analytics** sends screen names, onboarding/save events,
+  the sleep goal and the number of nights logged. Names, notes, sleep times and
+  quality ratings are never sent, and turning it off deletes the stored id.
 
 ## Project layout
 
@@ -118,6 +142,8 @@ css/
   responsive.css    mobile layouts + reduced motion
 js/
   app.js            shell, routing, actions, Spotify controller
+  analytics.js      opt-in PostHog wrapper (loads the SDK only when enabled)
+  vendor/           vendored posthog-js browser build, no npm needed
   views.js          all render functions
   store.js          localStorage state, tags, providers, sample data
   sleep.js          score, stats, advice engine, tonight plan
