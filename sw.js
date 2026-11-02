@@ -4,7 +4,7 @@
    entries never leave the device anyway; this only covers the code and icons.
    Bump CACHE when the shell file list or any asset changes materially. */
 
-const CACHE = 'somnia-shell-v1';
+const CACHE = 'somnia-shell-v2';
 
 const SHELL = [
   './',
@@ -23,6 +23,7 @@ const SHELL = [
   './js/sounds.js',
   './js/icons.js',
   './js/utils.js',
+  './js/analytics.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/icon-maskable-512.png',
