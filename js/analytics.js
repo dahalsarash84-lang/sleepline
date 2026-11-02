@@ -99,7 +99,7 @@ export async function capture(event, properties = {}) {
   }
 }
 
-/** One $pageview per route, sent by hand because Somnia is a single page. */
+/** One $pageview per route, sent by hand because Sleepline is a single page. */
 export async function capturePageview(route) {
   await capture('$pageview', { route, $current_url: `${window.location.origin}/#${route}` });
 }

@@ -116,7 +116,7 @@ function base64Url(bytes) {
 async function sha256(value) {
   if (!crypto?.subtle) {
     throw new SpotifyError(
-      'Spotify needs a secure browser context. Open Somnia on http://127.0.0.1 or HTTPS.',
+      'Spotify needs a secure browser context. Open Sleepline on http://127.0.0.1 or HTTPS.',
     );
   }
   const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));

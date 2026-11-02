@@ -2,6 +2,8 @@
 
 import { addDays, clamp, keyFromDate, todayKey, uid } from './utils.js';
 
+/* The key keeps the app's original name on purpose: renaming it would orphan
+   every diary already saved in a browser. Same for the Spotify and volume keys. */
 const STORAGE_KEY = 'somnia.data.v1';
 const MAX_NIGHTS = 3700;
 
@@ -161,7 +163,7 @@ function persist() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     return true;
   } catch (error) {
-    console.error('Could not save Somnia data', error);
+    console.error('Could not save Sleepline data', error);
     return false;
   }
 }
@@ -230,7 +232,7 @@ export function replaceAll(next, { keepSettings = false } = {}) {
 
 export function exportBackup() {
   return {
-    app: 'Somnia',
+    app: 'Sleepline',
     version: 1,
     exportedAt: new Date().toISOString(),
     settings: state.settings,
@@ -239,7 +241,7 @@ export function exportBackup() {
 }
 
 export function importBackup(payload) {
-  if (!payload || typeof payload !== 'object') throw new Error('That file is not a Somnia backup.');
+  if (!payload || typeof payload !== 'object') throw new Error('That file is not a Sleepline backup.');
   const nights = Array.isArray(payload) ? payload : payload.nights;
   if (!Array.isArray(nights)) throw new Error('No sleep entries were found in that file.');
   const settings = Array.isArray(payload) ? null : payload.settings;

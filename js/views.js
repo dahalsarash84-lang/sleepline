@@ -264,7 +264,7 @@ function emptyHero() {
     <div class="hero-main">
       <span class="pill pill-live"><span class="dot"></span>Your first night</span>
       <h2>Sleep is a pattern.<br>Start with one night.</h2>
-      <p class="hero-sub">Log bedtime, wake time and how you felt. Somnia turns those entries into a weekly rhythm, a sleep score, and advice that references your own numbers.</p>
+      <p class="hero-sub">Log bedtime, wake time and how you felt. Sleepline turns those entries into a weekly rhythm, a sleep score, and advice that references your own numbers.</p>
       <div class="hero-actions">
         <button type="button" class="btn btn-primary" data-action="log-new">${icon('plus', 17)} Log last night</button>
         <button type="button" class="btn btn-ghost" data-action="load-sample">Explore with sample data</button>
@@ -453,7 +453,7 @@ function factorSection(factorAnalysis) {
   if (!factorAnalysis.length) {
     return `<section class="card factor-card">
       <div class="card-head"><div><p class="kicker">Tags</p><h2>What moves your sleep</h2></div></div>
-      <p class="empty-copy">Add tags like caffeine, screens or exercise for a few nights. Once there are enough, Somnia can compare nights with and without them.</p>
+      <p class="empty-copy">Add tags like caffeine, screens or exercise for a few nights. Once there are enough, Sleepline can compare nights with and without them.</p>
     </section>`;
   }
   const rows = factorAnalysis.slice(0, 5);
@@ -534,7 +534,7 @@ export function viewInsights({ settings, nights, stats, advice }) {
     ${factorSection(stats.factorAnalysis)}
     <section class="card disclaimer">
       <span class="disclaimer-icon">${icon('info', 18)}</span>
-      <p><strong>A note on advice.</strong> Somnia offers general sleep-wellbeing guidance based on the entries you make. It is not a medical device and does not diagnose or treat insomnia or any health condition. If sleep problems persist or affect your daytime life, talk with a clinician.</p>
+      <p><strong>A note on advice.</strong> Sleepline offers general sleep-wellbeing guidance based on the entries you make. It is not a medical device and does not diagnose or treat insomnia or any health condition. If sleep problems persist or affect your daytime life, talk with a clinician.</p>
     </section>`;
 }
 
@@ -713,12 +713,12 @@ export function spotifyPanelBody({ settings, spotify, redirect }) {
             <button type="button" class="btn btn-primary" data-action="spotify-connect">${icon('music', 17)} Connect Spotify</button>
             <button type="button" class="text-link" data-action="settings-open" data-section="music">Spotify settings</button>
           </div>
-          <p class="footnote">You’ll be sent to Spotify to approve read access to your playlists and playback control. Nothing is sent to a Somnia server.</p>`
+          <p class="footnote">You’ll be sent to Spotify to approve read access to your playlists and playback control. Nothing is sent to a Sleepline server.</p>`
         : `<p class="spotify-copy">Spotify is the one platform with a browser-safe account connection. Add a free developer Client ID once, then your own playlists and devices show up here. Apple Music, YouTube Music, Amazon Music and SoundCloud open directly in their apps below.</p>
           <div class="setup-steps">
             <div><span>1</span><p>Create a free app in the Spotify developer dashboard.</p></div>
             <div><span>2</span><p>Add this exact redirect URI: <code>${escapeHtml(redirect)}</code></p></div>
-            <div><span>3</span><p>Paste the Client ID into Somnia’s music settings.</p></div>
+            <div><span>3</span><p>Paste the Client ID into Sleepline’s music settings.</p></div>
           </div>
           <div class="spotify-actions">
             <button type="button" class="btn btn-primary" data-action="settings-open" data-section="music">${icon('sliders', 17)} Set up Spotify</button>
@@ -762,14 +762,14 @@ export function spotifyPanelBody({ settings, spotify, redirect }) {
     </div>
   </div>
   <div id="spotify-list">${playlistGrid(spotify)}</div>
-  <p class="footnote">${devices.length ? 'Playback starts on the selected device. Keep Spotify open there.' : 'Open Spotify on your phone or computer so Somnia has somewhere to send playback.'} Premium is required by Spotify for playback control.</p>`;
+  <p class="footnote">${devices.length ? 'Playback starts on the selected device. Keep Spotify open there.' : 'Open Spotify on your phone or computer so Sleepline has somewhere to send playback.'} Premium is required by Spotify for playback control.</p>`;
 }
 
 function providersSection(settings) {
   const provider = getProvider(settings.defaultProvider);
   return `<section class="card providers-card">
     <div class="card-head">
-      <div><p class="kicker">Your player, your ritual</p><h2>Hand off to any platform</h2><p class="card-sub">Choose where you listen. Somnia opens a sleep-ready search right in that app or web player.</p></div>
+      <div><p class="kicker">Your player, your ritual</p><h2>Hand off to any platform</h2><p class="card-sub">Choose where you listen. Sleepline opens a sleep-ready search right in that app or web player.</p></div>
     </div>
     <div class="provider-tabs" role="group" aria-label="Choose a streaming platform">
       ${PROVIDERS.map(
@@ -859,7 +859,7 @@ export function viewSettings({ settings, connected, redirect, nightCount, storag
               <li>Under User Management, add the Spotify account you’ll use (development mode is limited to 5 people).</li>
               <li>Paste the app’s Client ID above and connect.</li>
             </ol>
-            <p>Spotify development mode currently requires the app owner to have Premium. Somnia has no backend and no client secret; your tokens stay in this browser.</p>
+            <p>Spotify development mode currently requires the app owner to have Premium. Sleepline has no backend and no client secret; your tokens stay in this browser.</p>
           </details>
         </div>
       </section>
@@ -871,7 +871,7 @@ export function viewSettings({ settings, connected, redirect, nightCount, storag
           <button type="button" class="btn btn-small btn-ghost" data-action="load-sample">${icon('sparkles', 15)} Load sample</button>
         </div>
         <input id="import-file" type="file" accept="application/json,.json" hidden>
-        <p class="field-note">${plural(nightCount, 'night')} · ${Math.max(1, Math.round(storageBytes / 1024))} KB stored locally. Nothing is uploaded to Somnia.</p>
+        <p class="field-note">${plural(nightCount, 'night')} · ${Math.max(1, Math.round(storageBytes / 1024))} KB stored locally. Nothing is uploaded to Sleepline.</p>
         <button type="button" class="btn btn-small btn-danger-ghost" data-action="clear-data">${icon('trash', 15)} Clear journal</button>
       </section>
       <section class="settings-section">
@@ -888,9 +888,9 @@ export function viewSettings({ settings, connected, redirect, nightCount, storag
         </div>
       </section>
       <section class="settings-section about-section">
-        <h3>About Somnia</h3>
+        <h3>About Sleepline</h3>
         <p>A local-first sleep diary and wind-down companion. No account and no uploads: your entries stay in this browser. Usage analytics is optional and off until you turn it on above. Spotify requests happen only after you connect your own account. External music links open only when you tap them.</p>
-        <p class="fine-print">Somnia is not a medical device and does not diagnose or treat any condition. If sleep problems persist, speak with a clinician.</p>
+        <p class="fine-print">Sleepline is not a medical device and does not diagnose or treat any condition. If sleep problems persist, speak with a clinician.</p>
       </section>
     </form>
     <footer class="drawer-foot">
@@ -901,9 +901,9 @@ export function viewSettings({ settings, connected, redirect, nightCount, storag
 
 export function viewOnboarding({ step, draft }) {
   const titles = [
-    { kicker: 'Welcome to Somnia', title: 'Better sleep starts with noticing.', body: 'A private diary, a weekly pattern, and guidance that points at your own numbers — not someone else’s ideal.' },
+    { kicker: 'Welcome to Sleepline', title: 'Better sleep starts with noticing.', body: 'A private diary, a weekly pattern, and guidance that points at your own numbers — not someone else’s ideal.' },
     { kicker: 'Your rhythm', title: 'Pick a window to protect.', body: 'A steady wake time matters more than a perfect bedtime. Choose something realistic, then adjust as you learn.' },
-    { kicker: 'Wind down', title: 'Choose your soundtrack.', body: 'Somnia can generate soundscapes offline and hand off to the music app you already use. You can change this any time.' },
+    { kicker: 'Wind down', title: 'Choose your soundtrack.', body: 'Sleepline can generate soundscapes offline and hand off to the music app you already use. You can change this any time.' },
   ];
   const current = titles[step];
   const goalOptions = GOAL_OPTIONS.map(
@@ -937,14 +937,14 @@ export function viewOnboarding({ step, draft }) {
           <div class="privacy-card">${icon('lock', 18)}<div><strong>Everything stays on this device.</strong><p>Sleep entries are stored in your browser’s local storage. No account, no cloud. Export a backup any time.</p></div></div>
           <label class="consent-option">
             <input type="checkbox" name="onboardConsent" ${draft.consent ? 'checked' : ''}>
-            <span>Share anonymous usage data so we can see which parts of Somnia help. Optional, never your sleep details.</span>
+            <span>Share anonymous usage data so we can see which parts of Sleepline help. Optional, never your sleep details.</span>
           </label>`;
 
   return `<div class="onboarding">
     <div class="onboarding-glow" aria-hidden="true"></div>
     <div class="onboarding-card" role="dialog" aria-modal="true" aria-labelledby="onboard-title">
       <header class="onboarding-head">
-        <div class="brand brand-static">${brandMark(36)}<span class="brand-copy"><strong>Somnia</strong><small>sleep, understood</small></span></div>
+        <div class="brand brand-static">${brandMark(36)}<span class="brand-copy"><strong>Sleepline</strong><small>sleep, understood</small></span></div>
         <div class="onboarding-head-right"><span>${step + 1} of 3</span><button type="button" class="btn btn-small btn-ghost" data-action="onboard-skip">Skip setup</button></div>
       </header>
       <div class="onboarding-progress" aria-hidden="true">${[0, 1, 2].map((index) => `<span class="${index <= step ? 'is-on' : ''}"></span>`).join('')}</div>

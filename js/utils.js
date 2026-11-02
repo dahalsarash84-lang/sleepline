@@ -1,4 +1,4 @@
-/* Small, dependency-free helpers used across Somnia. */
+/* Small, dependency-free helpers used across Sleepline. */
 
 export const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 

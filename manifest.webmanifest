@@ -1,6 +1,6 @@
 {
-  "name": "Somnia — sleep diary & sound room",
-  "short_name": "Somnia",
+  "name": "Sleepline — sleep diary & sound room",
+  "short_name": "Sleepline",
   "description": "A private sleep diary, pattern tracker and wind-down sound room. Your entries stay on your device.",
   "id": "./",
   "start_url": "./",

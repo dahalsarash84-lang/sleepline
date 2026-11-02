@@ -418,7 +418,7 @@ export function buildAdvice(nights, settings, stats = computeStats(nights, setti
       icon: 'headphones',
       tag: 'A small experiment',
       title: 'Trade the scroll for sound',
-      body: 'Rain, ocean and brown noise are generated locally in Somnia and can stop themselves on a timer. Try one during wind-down and see whether it shortens the drift off.',
+      body: 'Rain, ocean and brown noise are generated locally in Sleepline and can stop themselves on a timer. Try one during wind-down and see whether it shortens the drift off.',
       action: { label: 'Open sounds', href: '#sounds' },
     });
   }

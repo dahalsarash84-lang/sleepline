@@ -1,10 +1,10 @@
-/* Somnia — offline shell.
+/* Sleepline — offline shell.
 
    Keeps a copy of the app so it still opens when the Wi-Fi drops. Sleep
    entries never leave the device anyway; this only covers the code and icons.
    Bump CACHE when the shell file list or any asset changes materially. */
 
-const CACHE = 'somnia-shell-v2';
+const CACHE = 'sleepline-shell-v3';
 
 const SHELL = [
   './',
@@ -55,7 +55,7 @@ async function networkFirst(request) {
   } catch (error) {
     const cached = (await cache.match('./index.html')) || (await cache.match('./'));
     if (cached) return cached;
-    return new Response('Somnia needs one online visit before it can open offline.', {
+    return new Response('Sleepline needs one online visit before it can open offline.', {
       status: 503,
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });

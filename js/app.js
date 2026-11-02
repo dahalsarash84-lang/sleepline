@@ -1,4 +1,4 @@
-/* Somnia — application shell, routing and interactions. */
+/* Sleepline — application shell, routing and interactions. */
 
 import { capture, capturePageview, identifyPerson, syncAnalytics } from './analytics.js';
 import { brandMark, icon } from './icons.js';
@@ -111,9 +111,9 @@ function mountShell() {
       <span class="stars"></span>
     </div>
     <aside class="sidebar">
-      <a class="brand" href="#today" aria-label="Somnia home">
+      <a class="brand" href="#today" aria-label="Sleepline home">
         ${brandMark(40)}
-        <span class="brand-copy"><strong>Somnia</strong><small>sleep, understood</small></span>
+        <span class="brand-copy"><strong>Sleepline</strong><small>sleep, understood</small></span>
       </a>
       <button type="button" class="btn btn-primary btn-lg btn-block" data-action="log-new">
         ${icon('plus', 18)} Log sleep
@@ -137,7 +137,7 @@ function mountShell() {
     </aside>
     <main class="main">
       <header class="mobile-top">
-        <a class="brand brand-mobile" href="#today" aria-label="Somnia home">${brandMark(30)}<strong>Somnia</strong></a>
+        <a class="brand brand-mobile" href="#today" aria-label="Sleepline home">${brandMark(30)}<strong>Sleepline</strong></a>
         <button type="button" class="icon-btn" data-action="settings-open" aria-label="Open settings">${icon('sliders', 19)}</button>
       </header>
       <div id="view" class="view"></div>
@@ -185,7 +185,7 @@ function render() {
   syncChrome(stats);
   syncSoundUI(soundState);
   updateScrollLock();
-  document.title = `${PAGE_TITLES[appState.route]} · Somnia`;
+  document.title = `${PAGE_TITLES[appState.route]} · Sleepline`;
 
   if (appState.route === 'sounds' && isConnected()) {
     queueMicrotask(() => {
@@ -973,7 +973,7 @@ async function handleAction(action, trigger) {
       break;
     case 'export': {
       downloadFile(
-        `somnia-backup-${todayKey()}.json`,
+        `sleepline-backup-${todayKey()}.json`,
         JSON.stringify(exportBackup(), null, 2),
       );
       showToast('Backup downloaded.');

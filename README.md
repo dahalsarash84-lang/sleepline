@@ -1,4 +1,4 @@
-# Somnia — sleep diary, insights & sound room
+# Sleepline — sleep diary, insights & sound room
 
 Saved checkpoint: **progress** (2 November 2026)
 
@@ -31,7 +31,7 @@ Use `127.0.0.1`, not `localhost`, for the Spotify redirect URI, because Spotify 
 
 ## Use it online (works with the computer off)
 
-**https://dahalsarash84-lang.github.io/https-github.com-you-somnia/**
+**https://dahalsarash84-lang.github.io/sleepline/**
 
 GitHub Pages serves the `main` branch over HTTPS, so this address works on any
 phone, on mobile data, with this computer switched off. It is also the only
@@ -94,21 +94,21 @@ Spotify redirect URI.
 
    ```
    http://127.0.0.1:4173/
-   https://dahalsarash84-lang.github.io/https-github.com-you-somnia/
+   https://dahalsarash84-lang.github.io/sleepline/
    ```
 
 3. Under **User Management**, add the Spotify account you will use. Development mode is currently limited to five users and requires the app owner to have Spotify Premium.
 4. Copy the app’s **Client ID** (no client secret is needed).
-5. In Somnia: **Settings → Music & streaming**, paste the Client ID, save, then **Connect Spotify**.
+5. In Sleepline: **Settings → Music & streaming**, paste the Client ID, save, then **Connect Spotify**.
 
-Somnia uses Authorization Code with PKCE and the scopes:
+Sleepline uses Authorization Code with PKCE and the scopes:
 
 ```
 user-read-private playlist-read-private playlist-read-collaborative
 user-read-playback-state user-modify-playback-state
 ```
 
-Tokens are stored in this browser’s local storage. Nothing is sent to a Somnia server because there isn’t one. Playback starts on an already-open Spotify device and requires Premium.
+Tokens are stored in this browser’s local storage. Nothing is sent to a Sleepline server because there isn’t one. Playback starts on an already-open Spotify device and requires Premium.
 
 If you host the app anywhere else, add that exact URL as an additional redirect
 URI in the Spotify app — Spotify compares the whole string, including the
@@ -116,7 +116,9 @@ trailing slash.
 
 ## Data & privacy
 
-- Sleep entries and settings live in `localStorage` under `somnia.data.v1`.
+- Sleep entries and settings live in `localStorage` under `somnia.data.v1`. The
+  key keeps the app's original name on purpose: renaming it would orphan diaries
+  that already exist in a browser.
 - Export a JSON backup from the Journal or Settings before clearing browser data.
 - Soundscapes are generated locally; no audio files are downloaded.
 - External music links only open when chosen.

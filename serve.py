@@ -1,4 +1,4 @@
-"""Local server for Somnia.
+"""Local server for Sleepline.
 
 Serves the app to this computer and to any phone or tablet on the same Wi-Fi.
 Uses the Python standard library only: no dependencies, no build step.
@@ -31,7 +31,7 @@ EXTENSION_TYPES = {
 }
 
 
-class SomniaHandler(SimpleHTTPRequestHandler):
+class SleeplineHandler(SimpleHTTPRequestHandler):
     extensions_map = {**SimpleHTTPRequestHandler.extensions_map, **EXTENSION_TYPES}
 
     def end_headers(self) -> None:
@@ -66,7 +66,7 @@ def lan_addresses() -> list[str]:
 
 
 def report(host: str, port: int) -> None:
-    print(f"Somnia is running on port {port}.")
+    print(f"Sleepline is running on port {port}.")
     print()
     print(f"  On this computer : http://127.0.0.1:{port}/")
     if host.startswith("127."):
@@ -91,7 +91,7 @@ def report(host: str, port: int) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Serve Somnia locally, to this computer and your network.")
+    parser = argparse.ArgumentParser(description="Serve Sleepline locally, to this computer and your network.")
     parser.add_argument("--port", type=int, default=4173, help="port to listen on (default: 4173)")
     parser.add_argument(
         "--host",
@@ -109,7 +109,7 @@ def main() -> None:
 
     os.chdir(ROOT)
     try:
-        server = ThreadingHTTPServer((host, args.port), SomniaHandler)
+        server = ThreadingHTTPServer((host, args.port), SleeplineHandler)
     except OSError as error:
         print(f"Could not start on {host}:{args.port} — {error}")
         print("Another copy may already be running. Try --port 4174.")
