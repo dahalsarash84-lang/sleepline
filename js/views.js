@@ -874,9 +874,22 @@ export function viewSettings({ settings, connected, redirect, nightCount, storag
         <p class="field-note">${plural(nightCount, 'night')} · ${Math.max(1, Math.round(storageBytes / 1024))} KB stored locally. Nothing is uploaded to Somnia.</p>
         <button type="button" class="btn btn-small btn-danger-ghost" data-action="clear-data">${icon('trash', 15)} Clear journal</button>
       </section>
+      <section class="settings-section">
+        <h3>Privacy & analytics</h3>
+        <div class="spotify-setup">
+          <div class="setup-heading"><strong>Usage analytics</strong><span class="pill pill-soft">Optional</span></div>
+          <label class="consent-option">
+            <input type="checkbox" name="analyticsConsent" ${settings.analyticsConsent ? 'checked' : ''}>
+            <span>Share anonymous usage data with PostHog</span>
+          </label>
+          <p class="field-note">Records the screens you open, finishing setup, logging a night and starting a soundscape, plus your sleep goal and how many nights you have. Your name, notes, sleep times and quality ratings are never sent. Off by default — untick it to delete the saved analytics id and stop every request.</p>
+          <label class="field"><span>PostHog project API key</span><input name="posthogKey" value="${escapeHtml(settings.posthogKey)}" placeholder="phc_…" autocomplete="off" spellcheck="false"></label>
+          <p class="field-note">Create a free project at <a class="text-link" href="https://posthog.com" target="_blank" rel="noopener">posthog.com</a> and paste its project API key. That key can only write events, so it is safe to keep in this browser.</p>
+        </div>
+      </section>
       <section class="settings-section about-section">
         <h3>About Somnia</h3>
-        <p>A local-first sleep diary and wind-down companion. No account, no analytics, no uploads. Spotify requests happen only after you connect your own account. External music links open only when you tap them.</p>
+        <p>A local-first sleep diary and wind-down companion. No account and no uploads: your entries stay in this browser. Usage analytics is optional and off until you turn it on above. Spotify requests happen only after you connect your own account. External music links open only when you tap them.</p>
         <p class="fine-print">Somnia is not a medical device and does not diagnose or treat any condition. If sleep problems persist, speak with a clinician.</p>
       </section>
     </form>
@@ -921,7 +934,11 @@ export function viewOnboarding({ step, draft }) {
           )} in bed.</div>
           <div class="onboard-note">${icon('info', 16)} If you’re not sure, start with 11:00 PM to 7:00 AM. You can change it after a week of real nights.</div>`
         : `<div class="provider-choice-list">${providerOptions}</div>
-          <div class="privacy-card">${icon('lock', 18)}<div><strong>Everything stays on this device.</strong><p>Sleep entries are stored in your browser’s local storage. No account, no cloud, no analytics. Export a backup any time.</p></div></div>`;
+          <div class="privacy-card">${icon('lock', 18)}<div><strong>Everything stays on this device.</strong><p>Sleep entries are stored in your browser’s local storage. No account, no cloud. Export a backup any time.</p></div></div>
+          <label class="consent-option">
+            <input type="checkbox" name="onboardConsent" ${draft.consent ? 'checked' : ''}>
+            <span>Share anonymous usage data so we can see which parts of Somnia help. Optional, never your sleep details.</span>
+          </label>`;
 
   return `<div class="onboarding">
     <div class="onboarding-glow" aria-hidden="true"></div>

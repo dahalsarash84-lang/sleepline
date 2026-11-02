@@ -1,5 +1,6 @@
 /* Somnia — application shell, routing and interactions. */
 
+import { capture, capturePageview, identifyPerson, syncAnalytics } from './analytics.js';
 import { brandMark, icon } from './icons.js';
 import {
   clearNights,
@@ -89,6 +90,18 @@ const appState = {
 function routeFromHash() {
   const raw = window.location.hash.replace(/^#\/?/, '').split('?')[0];
   return ROUTES.includes(raw) ? raw : 'today';
+}
+
+/* Person properties for analytics: settings and counts only, never entries. */
+function analyticsProfile(extra = {}) {
+  const settings = getSettings();
+  return {
+    sleep_goal_hours: settings.sleepGoal,
+    nights_logged: getNights().length,
+    onboarded: settings.onboarded,
+    music_platform: settings.defaultProvider,
+    ...extra,
+  };
 }
 
 function mountShell() {
@@ -540,6 +553,7 @@ function saveLogForm(form) {
   }
 
   let id = String(data.get('id') || '');
+  const editing = Boolean(id);
   if (getSettings().sampleData) {
     const sampleIds = getNights()
       .filter((night) => night.id.startsWith('sample-'))
@@ -564,6 +578,13 @@ function saveLogForm(form) {
     closeModal();
     render();
     showToast(`${formatDuration(nightDuration(saved))} saved.`);
+    const nightsLogged = getNights().length;
+    capture(editing ? 'night_updated' : 'night_logged', {
+      first_night: nightsLogged === 1,
+      nights_logged: nightsLogged,
+      used_sample_data: getSettings().sampleData,
+    });
+    identifyPerson(analyticsProfile());
   } catch (error) {
     formError(error.message || 'That night could not be saved.');
   }
@@ -586,6 +607,7 @@ function saveSettingsForm(form) {
 
   const current = getSettings();
   const clientId = String(data.get('spotifyClientId') || '').trim();
+  const analyticsConsent = data.get('analyticsConsent') === 'on';
   let disconnected = false;
   if (clientId !== current.spotifyClientId && isConnected()) {
     disconnect();
@@ -600,11 +622,17 @@ function saveSettingsForm(form) {
     targetWake,
     defaultProvider: String(data.get('defaultProvider') || 'spotify'),
     spotifyClientId: clientId,
+    analyticsConsent,
+    posthogKey: String(data.get('posthogKey') || ''),
     onboarded: true,
   });
   closeSettings();
   render();
   showToast(disconnected ? 'Preferences saved. Spotify was disconnected because the Client ID changed.' : 'Preferences saved.');
+  if (analyticsConsent !== current.analyticsConsent) {
+    capture(analyticsConsent ? 'analytics_consent_granted' : 'analytics_consent_withdrawn');
+  }
+  syncAnalytics(analyticsProfile());
 }
 
 async function copyRedirect() {
@@ -642,10 +670,12 @@ function openOnboarding() {
       targetBedtime: settings.targetBedtime,
       targetWake: settings.targetWake,
       provider: settings.defaultProvider,
+      consent: settings.analyticsConsent,
     },
   };
   renderOnboarding();
   updateScrollLock();
+  if (!settings.onboarded) capture('onboarding_started');
 }
 
 function renderOnboarding() {
@@ -676,6 +706,8 @@ function readOnboardingForm() {
   if (wake) draft.targetWake = wake.value;
   const provider = form.querySelector('input[name="onboardProvider"]:checked');
   if (provider) draft.provider = provider.value;
+  const consent = form.querySelector('[name="onboardConsent"]');
+  if (consent) draft.consent = consent.checked;
 }
 
 function updateOnboardingWindow() {
@@ -735,11 +767,19 @@ function finishOnboarding() {
     targetBedtime: draft.targetBedtime,
     targetWake: draft.targetWake,
     defaultProvider: draft.provider,
+    analyticsConsent: Boolean(draft.consent),
     onboarded: true,
   });
   closeOnboarding();
   render();
   showToast('You’re set up. Log your first night when you’re ready.');
+  identifyPerson(analyticsProfile()).then(() =>
+    capture('onboarding_completed', {
+      sleep_goal_hours: draft.sleepGoal,
+      music_platform: draft.provider,
+      share_usage: Boolean(draft.consent),
+    }),
+  );
 }
 
 function closeOnboarding() {
@@ -754,6 +794,7 @@ function skipOnboarding() {
   closeOnboarding();
   render();
   showToast('You can set everything up later in Settings.', 'info');
+  capture('onboarding_skipped');
 }
 
 /* -------------------------------- sounds --------------------------------- */
@@ -813,6 +854,7 @@ function syncSoundUI(state = soundEngine.getState()) {
 async function toggleSound(id) {
   try {
     await soundEngine.toggle(id);
+    if (soundEngine.getState().activeId === id) capture('soundscape_started', { soundscape: id });
   } catch (error) {
     console.error(error);
     showToast(error.message || 'That soundscape could not start.', 'error');
@@ -1146,6 +1188,7 @@ function bindEvents() {
     appState.route = routeFromHash();
     render();
     window.scrollTo({ top: 0, behavior: 'auto' });
+    capturePageview(appState.route);
   });
 }
 
@@ -1179,6 +1222,9 @@ async function boot() {
   render();
   syncSoundUI();
   if (redirectError) showToast(redirectError, 'error');
+  if (getSettings().analyticsConsent) {
+    syncAnalytics(analyticsProfile()).then(() => capturePageview(appState.route));
+  }
   if (!getSettings().onboarded) openOnboarding();
 }
 

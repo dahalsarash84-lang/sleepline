@@ -78,6 +78,8 @@ export const DEFAULT_SETTINGS = {
   targetWake: '07:00',
   defaultProvider: 'spotify',
   spotifyClientId: '',
+  analyticsConsent: false,
+  posthogKey: '',
   onboarded: false,
   sampleData: false,
 };
@@ -100,6 +102,8 @@ function normalizeSettings(settings = {}) {
     merged.defaultProvider = 'spotify';
   }
   merged.spotifyClientId = String(merged.spotifyClientId || '').trim();
+  merged.analyticsConsent = Boolean(merged.analyticsConsent);
+  merged.posthogKey = String(merged.posthogKey || '').trim();
   merged.onboarded = Boolean(merged.onboarded);
   merged.sampleData = Boolean(merged.sampleData);
   return merged;
