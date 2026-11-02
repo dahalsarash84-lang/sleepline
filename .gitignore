@@ -11,3 +11,5 @@ ef542c34-*/
 # Editor and OS noise
 .DS_Store
 Thumbs.db
+
+__pycache__/
